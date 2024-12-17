@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "btw_ores:block/deep_cluster"
+    }
+  }
+}

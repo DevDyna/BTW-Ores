@@ -1,0 +1,7 @@
+{
+  "parent": "btw_ores:block/template/double_layer",
+  "textures": {
+    "top": "minecraft:block/destroy_stage_9",
+    "below": "minecraft:block/cobbled_deepslate"
+  }
+}

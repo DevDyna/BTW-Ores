@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "btw_ores:block/stone_cluster"
+    }
+  }
+}

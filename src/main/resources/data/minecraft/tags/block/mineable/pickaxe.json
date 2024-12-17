@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "btw_ores:stone_cluster",
+    "btw_ores:deep_cluster",
+    "btw_ores:nether_cluster",
+    "btw_ores:end_cluster",
+    "btw_ores:null_cluster"
+  ]
+}

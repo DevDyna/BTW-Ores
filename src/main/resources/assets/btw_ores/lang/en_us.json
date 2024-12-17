@@ -1,0 +1,8 @@
+{
+    "block.btw_ores.stone_cluster":"Empty Stone Ore",
+    "block.btw_ores.deep_cluster":"Empty Deepslate Ore",
+    "block.btw_ores.nether_cluster":"Empty Nether Ore",
+    "block.btw_ores.end_cluster":"Empty End Ore",
+    "block.btw_ores.null_cluster": "Dummy Cluster",
+    "btw_ores.cluster.tab" : "Better That Wolfes - Ores"
+}
