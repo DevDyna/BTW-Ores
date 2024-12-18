@@ -1,4 +1,4 @@
-<p><img src="https://cf.way2muchnoise.eu/versions/1154134.svg" alt="title" /></p>
+<p><img src="https://cf.way2muchnoise.eu/versions/1161229.svg" alt="title" width="135" height="20" /></p>
 <div><img src="https://img.shields.io/badge/NeoForge-lime?style=plastic&amp;link=https%3A%2F%2Fneoforged.net%2F" alt="Static Badge" /></div>
 <p>&nbsp;</p>
 <p><span style="font-size: 24px;">This mod replace block disintegration of all ores with an ore cluster</span></p>
