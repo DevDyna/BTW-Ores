@@ -3,15 +3,13 @@ package com.devdyna.btw_ores;
 import java.util.List;
 import java.util.Random;
 
-
-
 // import org.slf4j.Logger;
 
 // import com.mojang.logging.LogUtils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -57,9 +55,8 @@ public class Utils {
 
     }
 
-    @SuppressWarnings({ "resource", "null" })
-    public void messageActionBar(String name) {
-        Minecraft.getInstance().player.displayClientMessage(Component.literal(name),
+    public void messageActionBar(String name, Player player) {
+        player.displayClientMessage(Component.literal(name),
                 true);
     }
 
@@ -81,15 +78,26 @@ public class Utils {
         }
     }
 
-    public static boolean isDimension(Player player ,ResourceKey<Level> dim
-    ){
+    public static boolean isDimension(Player player, ResourceKey<Level> dim) {
         return player.level().dimension().equals(dim);
     }
 
-    public static void SimplePlaceBlock(LevelAccessor levelAccessor,BlockPos pos,DeferredBlock<Block> block){
+    public static void SimplePlaceBlock(LevelAccessor levelAccessor, BlockPos pos, DeferredBlock<Block> block) {
         levelAccessor.setBlock(pos, block.get().defaultBlockState(), 32);
     }
 
-
+    /**
+     * @param delay ticks -> 20t = 1s
+     * @param name
+     * @param level
+     * @param pos
+     */
+    public static void ThenPlace(int delay, String name, LevelAccessor level, BlockPos pos) {
+        if (level.dayTime() % delay == 0) {
+            level.setBlock(pos,
+                    BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(name)).defaultBlockState(),
+                    32);
+        }
+    }
 
 }
