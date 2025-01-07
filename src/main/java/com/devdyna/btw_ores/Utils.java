@@ -61,9 +61,8 @@ public class Utils {
     }
 
     public static int getRandomValue(int value) {
-        if (value >= 0) {
+        if (value <= 0)
             return 1;
-        }
 
         Random random = new Random();
         return random.nextInt(value) + 1;
