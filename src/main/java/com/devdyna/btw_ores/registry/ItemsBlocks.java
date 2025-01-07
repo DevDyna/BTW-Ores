@@ -36,7 +36,7 @@ public class ItemsBlocks {
     public static DeferredBlock<Block> regClusterBlock(String name) {
         return BLOCKS.register(name + "_cluster", () -> new ClusterBlock(
                 BlockBehaviour.Properties.of().randomTicks().destroyTime(100).explosionResistance(100)
-                        .sound(SoundType.ANCIENT_DEBRIS).noLootTable()));
+                        .sound(SoundType.ANCIENT_DEBRIS).noLootTable(),name));
     }
 
     public static DeferredItem<BlockItem> ClusterItem(DeferredBlock<Block> block) {
