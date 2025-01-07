@@ -12,9 +12,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ItemsBlocks {
 
-    ItemsBlocks() {
-    }
-
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
         BLOCKS.register(bus);
