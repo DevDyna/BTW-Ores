@@ -9,10 +9,6 @@ import net.minecraft.world.level.block.Block;
 
 public class AnyTags {
 
-    AnyTags() {
-    }
-
-
     public static final TagKey<Block> BLACKLISTED_ORES = TagKey.create(BuiltInRegistries.BLOCK.key(),
             ResourceLocation.fromNamespaceAndPath(Main.MODID, "cannot_spawn_ore_cluster"));
 
