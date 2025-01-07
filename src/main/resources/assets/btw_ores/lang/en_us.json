@@ -4,5 +4,14 @@
     "block.btw_ores.nether_cluster":"Empty Nether Ore",
     "block.btw_ores.end_cluster":"Empty End Ore",
     "block.btw_ores.null_cluster": "Dummy Cluster",
-    "btw_ores.cluster.tab" : "Better That Wolfes - Ores"
+    "btw_ores.cluster.tab" : "Better That Wolfes - Ores",
+
+
+    "btw_ores.stone.shift.on":"Can generate random §7c:ores_in_ground/stone",
+    "btw_ores.deep.shift.on":"Can generate random §8c:ores_in_ground/deepslate",
+    "btw_ores.nether.shift.on":"Can generate random §cc:ores_in_ground/nether",
+    "btw_ores.end.shift.on":"Can generate random §ec:ores_in_ground/end",
+    "btw_ores.null.shift.on":"§kIllegalArgumentException",
+
+    "btw_ores.shift.off": "§8[§fLeft Shift§8]§f"
 }
