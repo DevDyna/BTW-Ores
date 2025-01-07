@@ -3,13 +3,8 @@ package com.devdyna.btw_ores;
 import java.util.List;
 import java.util.Random;
 
-// import org.slf4j.Logger;
-
-// import com.mojang.logging.LogUtils;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -24,9 +19,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class Utils {
+
+    public static final int STONE_OVERWORLD = 0;
+    public static final int DEEPSLATE_OVERWORLD = 1;
+    public static final int NETHER = 2;
+    public static final int THE_END = 3;
+    public static final int OTHER = 4;
 
     /**
      * @param level   net.minecraft.world.level.Level
@@ -55,18 +55,25 @@ public class Utils {
 
     }
 
-    public void messageActionBar(String name, Player player) {
+    public static void messageActionBar(String name, Player player) {
         player.displayClientMessage(Component.literal(name),
                 true);
     }
 
     public static int getRandomValue(int value) {
-        if (value == 0) {
+        if (value >= 0) {
             return 1;
         }
 
         Random random = new Random();
         return random.nextInt(value) + 1;
+    }
+
+    public static boolean chance(int value) {
+        if (value == 0)
+            return false;
+
+        return getRandomValue(100) <= value;
     }
 
     public static String getModName(String traslationName) {
@@ -78,26 +85,12 @@ public class Utils {
         }
     }
 
-    public static boolean isDimension(Player player, ResourceKey<Level> dim) {
-        return player.level().dimension().equals(dim);
+    public static boolean isDimension(Level level, ResourceKey<Level> dim) {
+        return level.dimension().equals(dim);
     }
 
-    public static void SimplePlaceBlock(LevelAccessor levelAccessor, BlockPos pos, DeferredBlock<Block> block) {
-        levelAccessor.setBlock(pos, block.get().defaultBlockState(), 32);
-    }
-
-    /**
-     * @param delay ticks -> 20t = 1s
-     * @param name
-     * @param level
-     * @param pos
-     */
-    public static void ThenPlace(int delay, String name, LevelAccessor level, BlockPos pos) {
-        if (level.dayTime() % delay == 0) {
-            level.setBlock(pos,
-                    BuiltInRegistries.BLOCK.get(ResourceLocation.tryParse(name)).defaultBlockState(),
-                    32);
-        }
+    public static void SimplePlaceBlock(Level level, BlockPos pos, Block block) {
+        level.setBlock(pos, block.defaultBlockState(), 32);
     }
 
 }
