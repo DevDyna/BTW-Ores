@@ -1,8 +1,11 @@
 package com.devdyna.btw_ores.registry;
 
 import com.devdyna.btw_ores.Main;
+import com.devdyna.btw_ores.registry.builders.ClusterBlock;
+import com.devdyna.btw_ores.registry.builders.Scanner;
 
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -33,10 +36,13 @@ public class ItemsBlocks {
     public static final DeferredItem<BlockItem> END_CLUSTER_ITEM = ClusterItem(END_CLUSTER_BLOCK);
     public static final DeferredItem<BlockItem> NULL_CLUSTER_ITEM = ClusterItem(NULL_CLUSTER_BLOCK);
 
+    public static final DeferredItem<Item> SCANNER = ITEMS.register("scanner", () -> new Scanner(new Item.Properties()));
+
     public static DeferredBlock<Block> regClusterBlock(String name) {
         return BLOCKS.register(name + "_cluster", () -> new ClusterBlock(
                 BlockBehaviour.Properties.of().randomTicks().destroyTime(100).explosionResistance(100)
-                        .sound(SoundType.ANCIENT_DEBRIS).noLootTable(),name));
+                        .sound(SoundType.ANCIENT_DEBRIS),
+                name));
     }
 
     public static DeferredItem<BlockItem> ClusterItem(DeferredBlock<Block> block) {
