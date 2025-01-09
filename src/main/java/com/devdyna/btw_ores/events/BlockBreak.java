@@ -2,9 +2,11 @@ package com.devdyna.btw_ores.events;
 
 import java.util.List;
 
-import com.devdyna.btw_ores.Utils;
-import com.devdyna.btw_ores.registry.AnyTags;
+import com.devdyna.btw_ores.registry.BlockTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
+import com.devdyna.btw_ores.utils.EnchantUtil;
+import com.devdyna.btw_ores.utils.LevelUtil;
+import com.devdyna.btw_ores.utils.LootTableUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -31,26 +33,30 @@ public class BlockBreak {
         String raw_ore_name = state.getBlock().getDescriptionId();
         Block cluster = ItemsBlocks.NULL_CLUSTER_BLOCK.get();
 
-        if (state.is(Tags.Blocks.ORES) && !state.is(AnyTags.BLACKLISTED_ORES)
+        if (state.is(Tags.Blocks.ORES) && !state.is(BlockTags.NO_CLUSTER_GEN)
                 && player.getMainHandItem()
-                        .getEnchantmentLevel(Utils.getEnchantHolder(levelAccessor, Enchantments.SILK_TOUCH)) == 0) {
+                        .getEnchantmentLevel(
+                                EnchantUtil.getEnchantHolder(levelAccessor, Enchantments.SILK_TOUCH)) == 0) {
 
-            if (Utils.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() >= 0 && state.is(Tags.Blocks.ORES_IN_GROUND_STONE))
+            if (LevelUtil.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() >= 0
+                    && state.is(Tags.Blocks.ORES_IN_GROUND_STONE))
                 cluster = ItemsBlocks.STONE_CLUSTER_BLOCK.get();
 
-            if (Utils.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() < 0 && state.is(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE))
+            if (LevelUtil.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() < 0
+                    && state.is(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE))
                 cluster = ItemsBlocks.DEEP_CLUSTER_BLOCK.get();
 
-            if (Utils.isDimension((Level) levelAccessor, Level.NETHER) && state.is(Tags.Blocks.ORES_IN_GROUND_NETHERRACK)) 
+            if (LevelUtil.isDimension((Level) levelAccessor, Level.NETHER)
+                    && state.is(Tags.Blocks.ORES_IN_GROUND_NETHERRACK))
                 cluster = ItemsBlocks.NETHER_CLUSTER_BLOCK.get();
 
-            if (Utils.isDimension((Level) levelAccessor, Level.END) && state.is(AnyTags.ORES_IN_GROUND_END))
+            if (LevelUtil.isDimension((Level) levelAccessor, Level.END) && state.is(BlockTags.ORES_IN_GROUND_END))
                 cluster = ItemsBlocks.END_CLUSTER_BLOCK.get();
 
-            for (int i = 0; i < Utils.getRandomValue(player.getMainHandItem()
-                    .getEnchantmentLevel(Utils.getEnchantHolder(levelAccessor, Enchantments.FORTUNE))); i++) {
+            for (int i = 0; i < com.devdyna.btw_ores.utils.Math.getRandomValue(player.getMainHandItem()
+                    .getEnchantmentLevel(EnchantUtil.getEnchantHolder(levelAccessor, Enchantments.FORTUNE))); i++) {
 
-                List<ItemStack> list = Utils.getItemStackFromLootTable(levelAccessor, player,
+                List<ItemStack> list = LootTableUtil.getItemStackFromLootTable(levelAccessor, player,
                         raw_ore_name);
 
                 for (ItemStack itemStack : list) {
@@ -63,7 +69,7 @@ public class BlockBreak {
                 }
                 event.setCanceled(true);
             }
-            Utils.SimplePlaceBlock((Level) levelAccessor, pos, cluster);
+            LevelUtil.SimplePlaceBlock((Level) levelAccessor, pos, cluster);
         }
 
     }
