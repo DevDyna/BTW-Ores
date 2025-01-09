@@ -1,17 +1,28 @@
 {
-    "block.btw_ores.stone_cluster":"Empty Stone Ore",
-    "block.btw_ores.deep_cluster":"Empty Deepslate Ore",
-    "block.btw_ores.nether_cluster":"Empty Nether Ore",
-    "block.btw_ores.end_cluster":"Empty End Ore",
-    "block.btw_ores.null_cluster": "Dummy Cluster",
-    "btw_ores.cluster.tab" : "Better That Wolfes - Ores",
+  "block.btw_ores.stone_cluster": "Empty Ore Cluster",
+  "block.btw_ores.deep_cluster": "Empty Ore Cluster",
+  "block.btw_ores.nether_cluster": "Empty Ore Cluster",
+  "block.btw_ores.end_cluster": "Empty Ore Cluster",
+  "block.btw_ores.null_cluster": "Empty Ore Cluster",
+  "btw_ores.tab": "Better That Wolfes - Ores",
 
+  "btw_ores.stone.on": "§7Can generate random c:ores_in_ground/stone",
+  "btw_ores.deep.on": "§7Can generate random c:ores_in_ground/deepslate",
+  "btw_ores.nether.on": "§7Can generate random c:ores_in_ground/nether",
+  "btw_ores.end.on": "§7Can generate random c:ores_in_ground/end",
+  "btw_ores.null.on": "§7§kIllegalArgumentException",
 
-    "btw_ores.stone.shift.on":"Can generate random §7c:ores_in_ground/stone",
-    "btw_ores.deep.shift.on":"Can generate random §8c:ores_in_ground/deepslate",
-    "btw_ores.nether.shift.on":"Can generate random §cc:ores_in_ground/nether",
-    "btw_ores.end.shift.on":"Can generate random §ec:ores_in_ground/end",
-    "btw_ores.null.shift.on":"§kIllegalArgumentException",
+  "btw_ores.scanner.null": "§kIllegalArgumentException",
+  "btw_ores.scanner.placement": "§c§lInvalid Placement",
+  "btw_ores.scanner.stone.missing": "§c§lRequire more Stone Rocks",
+  "btw_ores.scanner.deepslate.missing": "§c§lRequire more Deepslate Rocks",
+  "btw_ores.scanner.nether.missing": "§c§lRequire more Nether Rocks",
+  "btw_ores.scanner.end.missing": "§c§lRequire more End Rocks",
+  "btw_ores.scanner.success": "§a§lCluster Active",
+  "btw_ores.scanner.invalid": "§c§lInvalid Cluster",
 
-    "btw_ores.shift.off": "§8[§fLeft Shift§8]§f"
+  "item.btw_ores.scanner": "Ore Cluster Scanner",
+
+  "btw_ores.scanner.on": "Show additional info about clusters",
+  "btw_ores.off": "§8[§fControl§8]§f"
 }
