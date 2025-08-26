@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "minecraft:compass"
+  },
+  "addition": {
+    "item": "minecraft:copper_ingot"
+  },
+  "template": {
+    "item": "minecraft:diamond"
+  },
+  "result": {
+    "item": "btw_ores:scanner"
+  }
+}
