@@ -28,6 +28,7 @@ public class LevelUtil {
         return value;
     }
 
+    @SuppressWarnings("deprecation")
     public static List<Holder<Block>> ResourceByTag(TagKey<Block> tag) {
         return BuiltInRegistries.BLOCK.getOrCreateTag(tag).stream().toList();
     }

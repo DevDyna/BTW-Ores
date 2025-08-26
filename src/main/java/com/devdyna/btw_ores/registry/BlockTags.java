@@ -19,8 +19,9 @@ public class BlockTags {
     public static final TagKey<Block> VALID_REGROW_NETHER = createBlockTag(Main.MODID, "rocks/nether");
     public static final TagKey<Block> VALID_REGROW_END = createBlockTag(Main.MODID, "rocks/end");
 
+    @SuppressWarnings("deprecation")
     private static TagKey<Block> createBlockTag(String modId, String path) {
         return TagKey.create(BuiltInRegistries.BLOCK.key(),
-                ResourceLocation.fromNamespaceAndPath(modId, path));
+                new ResourceLocation(modId, path));
     }
 }

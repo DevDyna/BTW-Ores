@@ -2,6 +2,8 @@ package com.devdyna.btw_ores.registry.builders;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.devdyna.btw_ores.Main;
 import com.devdyna.btw_ores.registry.BlockTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
@@ -47,26 +49,26 @@ public class Scanner extends Item {
         if (!state.is(BlockTags.CLUSTERS))
             return ActionResult("scanner.invalid", player);
 
-        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK.get())) {
             return ActionResult("scanner.null", player);
         }
 
-        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK.get())) {
             validTag = BlockTags.VALID_REGROW_STONE;
             type = "stone";
         }
 
-        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK.get())) {
             validTag = BlockTags.VALID_REGROW_DEEPSLATE;
             type = "deepslate";
         }
 
-        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK.get())) {
             validTag = BlockTags.VALID_REGROW_NETHER;
             type = "nether";
         }
 
-        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK.get())) {
             validTag = BlockTags.VALID_REGROW_END;
             type = "end";
         }
@@ -84,14 +86,13 @@ public class Scanner extends Item {
 
     @SuppressWarnings("null")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
-            TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> context,
+            TooltipFlag flag) {
         if (Screen.hasControlDown()) {
-            tooltipComponents.add(Component.translatable(Main.MODID + ".scanner.on"));
+            context.add(Component.translatable(Main.MODID + ".scanner.on"));
         } else {
-            tooltipComponents.add(Component.translatable(Main.MODID + ".off"));
+            context.add(Component.translatable(Main.MODID + ".off"));
         }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
 
     private Boolean validDimension(String type, BlockPos pos, Level level) {

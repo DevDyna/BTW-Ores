@@ -2,6 +2,8 @@ package com.devdyna.btw_ores.registry.builders;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.devdyna.btw_ores.Main;
 import com.devdyna.btw_ores.registry.BlockTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
@@ -14,32 +16,26 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-// import net.minecraft.world.level.block.state.StateDefinition;
-// import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-// import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraftforge.common.Tags;
 
 public class ClusterBlock extends Block {
 
-    // public static final BooleanProperty GROW = BlockStateProperties.ENABLED;
     private String type;
 
     public ClusterBlock(BlockBehaviour.Properties properties, String type) {
         super(properties);
         this.type = type;
-        // this.registerDefaultState(stateDefinition.any()
-        //         .setValue(GROW, false));
     }
 
     @SuppressWarnings("null")
-    protected void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 
         Level level = world.getLevel();
 
@@ -50,23 +46,23 @@ public class ClusterBlock extends Block {
         TagKey<Block> validReGrow = null;
 
         if (LevelUtil.isDimension(world, Level.OVERWORLD) && pos.getY() >= 0
-                && state.is(ItemsBlocks.STONE_CLUSTER_BLOCK)) {
+                && state.is(ItemsBlocks.STONE_CLUSTER_BLOCK.get())) {
             blockTag = Tags.Blocks.ORES_IN_GROUND_STONE;
             validReGrow = BlockTags.VALID_REGROW_STONE;
         }
 
         if (LevelUtil.isDimension(world, Level.OVERWORLD) && pos.getY() < 0
-                && state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK)) {
+                && state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK.get())) {
             blockTag = Tags.Blocks.ORES_IN_GROUND_DEEPSLATE;
             validReGrow = BlockTags.VALID_REGROW_DEEPSLATE;
         }
 
-        if (LevelUtil.isDimension(world, Level.NETHER) && state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK)) {
+        if (LevelUtil.isDimension(world, Level.NETHER) && state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK.get())) {
             blockTag = Tags.Blocks.ORES_IN_GROUND_NETHERRACK;
             validReGrow = BlockTags.VALID_REGROW_NETHER;
         }
 
-        if (LevelUtil.isDimension(world, Level.END) && state.is(ItemsBlocks.END_CLUSTER_BLOCK)) {
+        if (LevelUtil.isDimension(world, Level.END) && state.is(ItemsBlocks.END_CLUSTER_BLOCK.get())) {
             blockTag = BlockTags.ORES_IN_GROUND_END;
             validReGrow = BlockTags.VALID_REGROW_END;
         }
@@ -75,10 +71,9 @@ public class ClusterBlock extends Block {
 
             if (LevelUtil.ValidFaces(pos, level, validReGrow) >= 3) {
 
-                // state.setValue(GROW, true);
+                BlockState ore = LevelUtil.ResourceByTag(blockTag, Math.getRandomValue(LevelUtil.getSizeTag(blockTag)))
+                        .defaultBlockState();
 
-                BlockState ore = LevelUtil.ResourceByTag(blockTag, Math.getRandomValue(LevelUtil.getSizeTag(blockTag))).defaultBlockState();
-                
                 if (!ore.is(BlockTags.NO_CLUSTER_RESULT))
                     world.setBlockAndUpdate(pos, ore);
 
@@ -90,20 +85,13 @@ public class ClusterBlock extends Block {
 
     @SuppressWarnings("null")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
-            TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> context,
+            TooltipFlag flag) {
         if (Screen.hasControlDown()) {
-            tooltipComponents.add(Component.translatable(Main.MODID + "." + type + ".on"));
+            context.add(Component.translatable(Main.MODID + "." + type + ".on"));
         } else {
-            tooltipComponents.add(Component.translatable(Main.MODID + ".off"));
+            context.add(Component.translatable(Main.MODID + ".off"));
         }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
-
-    // @SuppressWarnings("null")
-    // @Override
-    // protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-    //     pBuilder.add(GROW);
-    // }
 
 }
