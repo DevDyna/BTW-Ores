@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "minecraft:compass"
+  },
+  "addition": {
+    "item": "minecraft:copper_ingot"
+  },
+  "template": {
+    "item": "minecraft:diamond"
+  },
+  "result": {
+    "id": "btw_ores:scanner",
+    "count": 1
+  }
+}
