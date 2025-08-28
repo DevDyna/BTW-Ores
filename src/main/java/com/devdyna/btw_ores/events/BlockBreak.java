@@ -6,9 +6,9 @@ import com.devdyna.btw_ores.registry.BlockTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
 import com.devdyna.btw_ores.utils.EnchantUtil;
 import com.devdyna.btw_ores.utils.LevelUtil;
-import com.devdyna.btw_ores.utils.LootTableUtil;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +30,6 @@ public class BlockBreak {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
         BlockState state = event.getState();
-        String raw_ore_name = state.getBlock().getDescriptionId();
         Block cluster = ItemsBlocks.NULL_CLUSTER_BLOCK.get();
 
         if (state.is(Tags.Blocks.ORES) && !state.is(BlockTags.NO_CLUSTER_GEN)
@@ -56,8 +55,7 @@ public class BlockBreak {
             for (int i = 0; i < com.devdyna.btw_ores.utils.Math.getRandomValue(player.getMainHandItem()
                     .getEnchantmentLevel(EnchantUtil.getEnchantHolder(levelAccessor, Enchantments.FORTUNE))); i++) {
 
-                List<ItemStack> list = LootTableUtil.getItemStackFromLootTable(levelAccessor, player,
-                        raw_ore_name);
+                List<ItemStack> list = Block.getDrops(state, (ServerLevel) levelAccessor, pos,null);
 
                 for (ItemStack itemStack : list) {
                     ItemEntity itementity = new ItemEntity((Level) levelAccessor,
@@ -67,9 +65,8 @@ public class BlockBreak {
                             itemStack);
                     levelAccessor.addFreshEntity(itementity);
                 }
-                event.setCanceled(true);
             }
-            LevelUtil.SimplePlaceBlock((Level) levelAccessor, pos, cluster);
+            levelAccessor.setBlock(pos, cluster.defaultBlockState(), 32);
         }
 
     }
