@@ -21,21 +21,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-// import net.minecraft.world.level.block.state.StateDefinition;
-// import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-// import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.neoforged.neoforge.common.Tags;
 
 public class ClusterBlock extends Block {
 
-    // public static final BooleanProperty GROW = BlockStateProperties.ENABLED;
     private String type;
 
     public ClusterBlock(BlockBehaviour.Properties properties, String type) {
         super(properties);
         this.type = type;
-        // this.registerDefaultState(stateDefinition.any()
-        //         .setValue(GROW, false));
     }
 
     @SuppressWarnings("null")
@@ -75,10 +69,9 @@ public class ClusterBlock extends Block {
 
             if (LevelUtil.ValidFaces(pos, level, validReGrow) >= 3) {
 
-                // state.setValue(GROW, true);
+                BlockState ore = LevelUtil.ResourceByTag(blockTag, Math.getRandomValue(LevelUtil.getSizeTag(blockTag)))
+                        .defaultBlockState();
 
-                BlockState ore = LevelUtil.ResourceByTag(blockTag, Math.getRandomValue(LevelUtil.getSizeTag(blockTag))).defaultBlockState();
-                
                 if (!ore.is(BlockTags.NO_CLUSTER_RESULT))
                     world.setBlockAndUpdate(pos, ore);
 
@@ -99,11 +92,5 @@ public class ClusterBlock extends Block {
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }
-
-    // @SuppressWarnings("null")
-    // @Override
-    // protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-    //     pBuilder.add(GROW);
-    // }
 
 }
