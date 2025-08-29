@@ -1,14 +1,11 @@
 package com.devdyna.btw_ores.registry;
 
 import com.devdyna.btw_ores.Main;
-import com.devdyna.btw_ores.utils.Constants;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -28,13 +25,9 @@ public class Tab {
                     .icon(() -> ItemsBlocks.SCANNER.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
 
-                        for (Block block : Constants.AllBlocks) {
-                            output.accept(block);
-                        }
-
-                        for (Item item : Constants.AllItems) {
-                            output.accept(item);
-                        }
+                        ItemsBlocks.ITEMS.getEntries().forEach(e -> {
+                                                        output.accept((Item) e.get());
+                                                });
 
                     }).build());
 }
