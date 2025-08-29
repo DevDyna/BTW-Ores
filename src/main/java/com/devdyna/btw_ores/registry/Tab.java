@@ -30,13 +30,9 @@ public class Tab {
                     .icon(() -> ItemsBlocks.SCANNER.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
 
-                        for (Block block : Constants.AllBlocks) {
-                            output.accept(block);
-                        }
-
-                        for (Item item : Constants.AllItems) {
-                            output.accept(item);
-                        }
+                        ItemsBlocks.ITEMS.getEntries().forEach(e -> {
+                                                        output.accept((Item) e.get());
+                                                });
 
                     }).build());
 }
