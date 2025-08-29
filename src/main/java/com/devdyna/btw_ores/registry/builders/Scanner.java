@@ -93,7 +93,7 @@ public class Scanner extends Item {
         } else {
             context.add(Component.translatable(Main.MODID + ".off"));
         }
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack,level,context,flag);
     }
 
     private Boolean validDimension(String type, BlockPos pos, Level level) {
