@@ -49,26 +49,26 @@ public class Scanner extends Item {
         if (!state.is(zTags.CLUSTERS))
             return ActionResult("scanner.invalid", player);
 
-        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK.get())) {
             return ActionResult("scanner.null", player);
         }
 
-        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK.get())) {
             validTag = zTags.VALID_REGROW_STONE;
             type = "stone";
         }
 
-        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK.get())) {
             validTag = zTags.VALID_REGROW_DEEPSLATE;
             type = "deepslate";
         }
 
-        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK.get())) {
             validTag = zTags.VALID_REGROW_NETHER;
             type = "nether";
         }
 
-        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK)) {
+        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK.get())) {
             validTag = zTags.VALID_REGROW_END;
             type = "end";
         }
@@ -93,7 +93,7 @@ public class Scanner extends Item {
         } else {
             context.add(Component.translatable(Main.MODID + ".off"));
         }
-        super.appendHoverText(stack,level,context,flag);
+        super.appendHoverText(stack, level, context, flag);
     }
 
     private Boolean validDimension(String type, BlockPos pos, Level level) {
