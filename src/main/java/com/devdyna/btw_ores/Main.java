@@ -17,6 +17,7 @@ public class Main {
         Tab.register(modEventBus);
         ItemsBlocks.register(modEventBus);
         NeoForge.EVENT_BUS.register(new BlockBreak());
+        Config.register(modContainer);
     }
 
 }
