@@ -1,0 +1,7 @@
+{
+  "values": [
+    "#forge:is_underground",
+    "#forge:is_cave",
+    "#minecraft:is_overworld"
+  ]
+}
