@@ -10,6 +10,7 @@
   "btw_ores.deep.on": "§7Can generate random forge:ores_in_ground/deepslate",
   "btw_ores.nether.on": "§7Can generate random forge:ores_in_ground/nether",
   "btw_ores.end.on": "§7Can generate random forge:ores_in_ground/end",
+  "btw_ores.randomless":"§7Can regenerate the broken ore over time",
   "btw_ores.null.on": "§7§kIllegalArgumentException",
 
   "btw_ores.scanner.null": "§kIllegalArgumentException",
@@ -24,5 +25,9 @@
   "item.btw_ores.scanner": "Ore Cluster Scanner",
 
   "btw_ores.scanner.on": "Show additional info about clusters",
+
+  "item.btw_ores.blaze_reagent": "Blaze Reagent",
+
+  "btw_ores.blaze_reagent.on": "Force to regenerate Null Clusters",
   "btw_ores.off": "§8[§fControl§8]§f"
 }
