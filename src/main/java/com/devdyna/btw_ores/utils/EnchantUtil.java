@@ -16,5 +16,4 @@ public class EnchantUtil {
         return level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT)
                 .getOrThrow(enchant);
     }
-
 }
