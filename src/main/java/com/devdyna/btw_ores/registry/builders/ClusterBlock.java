@@ -27,6 +27,7 @@ import net.minecraftforge.common.Tags;
 
 public class ClusterBlock extends Block {
 @SuppressWarnings("null")
+public class ClusterBlock extends Block implements EntityBlock {
 
     private String type;
 
