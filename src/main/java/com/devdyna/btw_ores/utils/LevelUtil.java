@@ -8,9 +8,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 public class LevelUtil {
+
+    public static boolean isBiome(Level level, BlockPos pos, TagKey<Biome> biome) {
+        return level.getBiome(pos).is(biome);
+    }
+
     public static boolean isDimension(Level level, ResourceKey<Level> dim) {
         return level.dimension().equals(dim);
     }
@@ -38,7 +44,20 @@ public class LevelUtil {
     }
 
     public static int getSizeTag(TagKey<Block> tag) {
-        return ResourceByTag(tag).size()-1;
+        return ResourceByTag(tag).size() - 1;
+    }
+
+    public static int getRandomValue(int max, Level l) {
+        if (max <= 0)
+            return 1;
+        return l.random.nextInt(max) + 1;
+    }
+
+    public static boolean chance(int value, Level l) {
+        if (value == 0)
+            return false;
+
+        return getRandomValue(100, l) <= value;
     }
 
 }
