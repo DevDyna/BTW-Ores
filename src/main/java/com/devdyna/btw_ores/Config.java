@@ -8,13 +8,18 @@ import net.neoforged.neoforge.common.ModConfigSpec.*;
 public class Config {
     private static final ModConfigSpec.Builder qCOMMON = new ModConfigSpec.Builder();
 
+    public static BooleanValue GENERATE_NULL;
     public static BooleanValue RANDOM_CLUSTERS;
     public static BooleanValue CORRUPTED_CLUSTERS;
     public static IntValue YLEVEL_GROUND_STONE;
     public static IntValue YLEVEL_GROUND_DEEPSLATE;
+    
 
     public static void register(ModContainer c) {
-        RANDOM_CLUSTERS = qCOMMON.comment("Change static regeneration of cluster to be random")
+        GENERATE_NULL = qCOMMON.comment("Generate Null Clusters when condition fails")
+                .define("cluster_null", true);
+
+                RANDOM_CLUSTERS = qCOMMON.comment("Change static regeneration of cluster to be random")
                 .define("cluster_random_regen", false);
 
         CORRUPTED_CLUSTERS = qCOMMON.comment("Corrupted Cluster will replaced with Air to prevent Crash")
