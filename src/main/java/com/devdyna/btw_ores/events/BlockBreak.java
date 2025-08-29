@@ -1,24 +1,12 @@
 package com.devdyna.btw_ores.events;
 
-import java.util.List;
-
-import com.devdyna.btw_ores.registry.BlockTags;
+import com.devdyna.btw_ores.Config;
+import com.devdyna.btw_ores.api.ClusterApi;
+import com.devdyna.btw_ores.registry.zTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
-import com.devdyna.btw_ores.utils.EnchantUtil;
-import com.devdyna.btw_ores.utils.LevelUtil;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 public class BlockBreak {
@@ -26,47 +14,27 @@ public class BlockBreak {
     @SubscribeEvent
     public void BlockBreakEvent(BlockEvent.BreakEvent event) {
 
-        LevelAccessor levelAccessor = event.getLevel();
-        BlockPos pos = event.getPos();
-        Player player = event.getPlayer();
-        BlockState state = event.getState();
-        Block cluster = ItemsBlocks.NULL_CLUSTER_BLOCK.get();
+        var level = (Level) event.getLevel();
+        var pos = event.getPos();
+        var player = event.getPlayer();
+        var state = event.getState();
+        if (level.isClientSide)
+            return;
 
-        if (state.is(Tags.Blocks.ORES) && !state.is(BlockTags.NO_CLUSTER_GEN)
-                && player.getMainHandItem()
-                        .getEnchantmentLevel(
-                                EnchantUtil.getEnchantHolder(levelAccessor, Enchantments.SILK_TOUCH)) == 0) {
+        var cluster = ClusterApi.getClusterFromOre(level, state, pos,
+                player.getMainHandItem());
 
-            if (LevelUtil.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() >= 0
-                    && state.is(Tags.Blocks.ORES_IN_GROUND_STONE))
-                cluster = ItemsBlocks.STONE_CLUSTER_BLOCK.get();
+        if (cluster == null)
+            return;
 
-            if (LevelUtil.isDimension((Level) levelAccessor, Level.OVERWORLD) && pos.getY() < 0
-                    && state.is(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE))
-                cluster = ItemsBlocks.DEEP_CLUSTER_BLOCK.get();
+        if (cluster.defaultBlockState().is(ItemsBlocks.NULL_CLUSTER_BLOCK.get()) && !Config.GENERATE_NULL.get())
+            return;
 
-            if (LevelUtil.isDimension((Level) levelAccessor, Level.NETHER)
-                    && state.is(Tags.Blocks.ORES_IN_GROUND_NETHERRACK))
-                cluster = ItemsBlocks.NETHER_CLUSTER_BLOCK.get();
-
-            if (LevelUtil.isDimension((Level) levelAccessor, Level.END) && state.is(BlockTags.ORES_IN_GROUND_END))
-                cluster = ItemsBlocks.END_CLUSTER_BLOCK.get();
-
-            for (int i = 0; i < com.devdyna.btw_ores.utils.Math.getRandomValue(player.getMainHandItem()
-                    .getEnchantmentLevel(EnchantUtil.getEnchantHolder(levelAccessor, Enchantments.FORTUNE))); i++) {
-
-                List<ItemStack> list = Block.getDrops(state, (ServerLevel) levelAccessor, pos,null);
-
-                for (ItemStack itemStack : list) {
-                    ItemEntity itementity = new ItemEntity((Level) levelAccessor,
-                            pos.getX(),
-                            pos.getY(),
-                            pos.getZ(),
-                            itemStack);
-                    levelAccessor.addFreshEntity(itementity);
-                }
-            }
-            levelAccessor.setBlock(pos, cluster.defaultBlockState(), 32);
+        if (!state.is(zTags.NO_CLUSTER_GEN)) {
+            ClusterApi.dropItems(state, player.getMainHandItem(), level, pos, player);
+            event.setCanceled(true);
+            ClusterApi.consumeDurability(player);
+            ClusterApi.createBEandApplyTag(level, pos, state, cluster);
         }
 
     }
