@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
 public class ClusterBlock extends Block {
+@SuppressWarnings("null")
 
     private String type;
 
@@ -38,45 +39,58 @@ public class ClusterBlock extends Block {
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
 
         Level level = world.getLevel();
+    @SuppressWarnings("deprecation")
 
-        if (com.devdyna.btw_ores.utils.Math.chance(75))
+        if (LevelUtil.chance(75, level) || state.is(ItemsBlocks.NULL_CLUSTER_BLOCK))
             return;
 
-        TagKey<Block> blockTag = null;
-        TagKey<Block> validReGrow = null;
+        var index = ClusterApi.getIndex(state, pos, level);
+        var blockTag = ClusterApi.getOreTag(index);
+        var validReGrow = ClusterApi.getTagRegrow(index);
 
-        if (LevelUtil.isDimension(world, Level.OVERWORLD) && pos.getY() >= 0
-                && state.is(ItemsBlocks.STONE_CLUSTER_BLOCK.get())) {
-            blockTag = Tags.Blocks.ORES_IN_GROUND_STONE;
-            validReGrow = BlockTags.VALID_REGROW_STONE;
-        }
-
-        if (LevelUtil.isDimension(world, Level.OVERWORLD) && pos.getY() < 0
-                && state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK.get())) {
-            blockTag = Tags.Blocks.ORES_IN_GROUND_DEEPSLATE;
-            validReGrow = BlockTags.VALID_REGROW_DEEPSLATE;
-        }
-
-        if (LevelUtil.isDimension(world, Level.NETHER) && state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK.get())) {
-            blockTag = Tags.Blocks.ORES_IN_GROUND_NETHERRACK;
-            validReGrow = BlockTags.VALID_REGROW_NETHER;
-        }
-
-        if (LevelUtil.isDimension(world, Level.END) && state.is(ItemsBlocks.END_CLUSTER_BLOCK.get())) {
-            blockTag = BlockTags.ORES_IN_GROUND_END;
-            validReGrow = BlockTags.VALID_REGROW_END;
-        }
-
-        if (blockTag != null) {
+        if (blockTag != null)
 
             if (LevelUtil.ValidFaces(pos, level, validReGrow) >= 3) {
+                BlockState ore;
+                try {
+                    var oreID = level.getBlockEntity(pos).saveCustomAndMetadata(level.registryAccess())
+                            .getString("oreBroken").split(":");
 
-                BlockState ore = LevelUtil.ResourceByTag(blockTag, Math.getRandomValue(LevelUtil.getSizeTag(blockTag)))
-                        .defaultBlockState();
+                    if (Config.RANDOM_CLUSTERS.get() && blockTag != null)
+                        ore = LevelUtil
+                                .ResourceByTag(blockTag,
+                                        LevelUtil.getRandomValue(LevelUtil.getSizeTag(blockTag), level))
+                                .defaultBlockState();
+                    else
+                        ore = BuiltInRegistries.BLOCK.get(ResourceLocation.fromNamespaceAndPath(oreID[0], oreID[1]))
+                                .defaultBlockState();
 
-                if (!ore.is(BlockTags.NO_CLUSTER_RESULT))
-                    world.setBlockAndUpdate(pos, ore);
+                    if (ore == null || ore.is(zTags.NO_CLUSTER_RESULT))
+                        return;
 
+                    level.setBlockAndUpdate(pos, ore);
+                } catch (Exception e1) {
+                    // when nbt blockid wasn't correct
+                    LogUtils.getLogger().error("##ERROR## Found a block cluster that contain broken value at " + pos.toShortString());
+                    try {
+                        LogUtils.getLogger()
+                                .info("##-----## Value stored inside BE: "
+                                        + level.getBlockEntity(pos).saveCustomAndMetadata(level.registryAccess())
+                                                .getString("oreBroken"));
+
+                    } catch (Exception e2) {
+                        // To prevent another Crash when readed
+                    }
+
+                    if (Config.CORRUPTED_CLUSTERS.get()) {
+                        LogUtils.getLogger().warn("##-----## Reverted as AIR to prevent CRASH");
+                        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                    } else {
+                        LogUtils.getLogger().warn(
+                                "##-----## Consider to break/modify it or enable via configs 'cluster_corrupted_crash_safety' ");
+                    }
+                    return;
+                }
             }
 
         }
@@ -88,10 +102,20 @@ public class ClusterBlock extends Block {
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> context,
             TooltipFlag flag) {
         if (Screen.hasControlDown()) {
-            context.add(Component.translatable(Main.MODID + "." + type + ".on"));
+            if (Config.RANDOM_CLUSTERS.getAsBoolean())
+                tooltipComponents.add(Component.translatable(Main.MODID + "." + type + ".on"));
+            else
+                tooltipComponents.add(Component.translatable(Main.MODID + ".randomless"));
         } else {
-            context.add(Component.translatable(Main.MODID + ".off"));
+            tooltipComponents.add(Component.translatable(Main.MODID + ".off"));
         }
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    @Override
+    @Nullable
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new ClusterBE(pos, state);
     }
 
 }
