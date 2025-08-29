@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.devdyna.btw_ores.Main;
-import com.devdyna.btw_ores.registry.BlockTags;
+import com.devdyna.btw_ores.registry.zTags;
 import com.devdyna.btw_ores.registry.ItemsBlocks;
 import com.devdyna.btw_ores.utils.LevelUtil;
 import com.devdyna.btw_ores.utils.PlayerUtil;
@@ -46,30 +46,30 @@ public class Scanner extends Item {
                 pos.getZ(), SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.BLOCKS, 100,
                 (int) Math.floor(Math.random() * 2), true);
 
-        if (!state.is(BlockTags.CLUSTERS))
+        if (!state.is(zTags.CLUSTERS))
             return ActionResult("scanner.invalid", player);
 
-        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK.get())) {
+        if (state.is(ItemsBlocks.NULL_CLUSTER_BLOCK)) {
             return ActionResult("scanner.null", player);
         }
 
-        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK.get())) {
-            validTag = BlockTags.VALID_REGROW_STONE;
+        if (state.is(ItemsBlocks.STONE_CLUSTER_BLOCK)) {
+            validTag = zTags.VALID_REGROW_STONE;
             type = "stone";
         }
 
-        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK.get())) {
-            validTag = BlockTags.VALID_REGROW_DEEPSLATE;
+        if (state.is(ItemsBlocks.DEEP_CLUSTER_BLOCK)) {
+            validTag = zTags.VALID_REGROW_DEEPSLATE;
             type = "deepslate";
         }
 
-        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK.get())) {
-            validTag = BlockTags.VALID_REGROW_NETHER;
+        if (state.is(ItemsBlocks.NETHER_CLUSTER_BLOCK)) {
+            validTag = zTags.VALID_REGROW_NETHER;
             type = "nether";
         }
 
-        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK.get())) {
-            validTag = BlockTags.VALID_REGROW_END;
+        if (state.is(ItemsBlocks.END_CLUSTER_BLOCK)) {
+            validTag = zTags.VALID_REGROW_END;
             type = "end";
         }
 
